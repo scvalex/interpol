@@ -25,6 +25,16 @@ sense that it does not disable any of GHC's normal checks
 not have a `Show` instance will result in the appropriate error).
 
 
+Installation
+------------
+
+This package is on [Hackage](http://hackage.haskell.org/).  To install
+it, run:
+
+    cabal update
+    cabal install interpol
+
+
 Usage
 -----
 
