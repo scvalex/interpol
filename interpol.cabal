@@ -1,0 +1,17 @@
+Name:           interpol
+Version:        0.1.0
+Copyright:      2011, Alexandru Scvortov
+Cabal-Version:  >= 1.2
+License:        GPL-3
+License-File:   LICENSE
+Stability:      experimental
+Author:         Alexandru Scvortov <scvalex@gmail.com>
+Maintainer:     scvalex@gmail.com
+Category:       Source-tools, Language
+Synopsis:       Preprocessor to enable Ruby-style variable interpolation in Strings
+Build-type:     Simple
+
+Executable interpol
+  Build-Depends:        base >=4,
+                        preprocessor-tools
+  Main-Is:              Main.hs
