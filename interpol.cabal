@@ -8,8 +8,9 @@ Stability:      experimental
 Author:         Alexandru Scvortov <scvalex@gmail.com>
 Maintainer:     scvalex@gmail.com
 Category:       Source-tools, Language
-Synopsis:       Preprocessor to enable Ruby-style variable interpolation in Strings
+Synopsis:       Pre-processor to enable variable interpolation in strings
 Build-type:     Simple
+Description:    This pre-processor enables variable interpolation in strings.  See the README.md file for details.
 
 Executable interpol
   Build-Depends:        base >=4, syb, preprocessor-tools, regex-posix
