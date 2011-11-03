@@ -28,7 +28,8 @@ not have a `Show` instance will result in the appropriate error).
 Installation
 ------------
 
-This package is on [Hackage](http://hackage.haskell.org/).  To install
+This package is on
+[Hackage](http://hackage.haskell.org/package/interpol).  To install
 it, run:
 
     cabal update
