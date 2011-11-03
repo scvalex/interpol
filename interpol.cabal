@@ -12,6 +12,5 @@ Synopsis:       Preprocessor to enable Ruby-style variable interpolation in Stri
 Build-type:     Simple
 
 Executable interpol
-  Build-Depends:        base >=4,
-                        preprocessor-tools
+  Build-Depends:        base >=4, syb, preprocessor-tools, regex-posix
   Main-Is:              Main.hs

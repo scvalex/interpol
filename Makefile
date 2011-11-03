@@ -1,4 +1,4 @@
-TESTS := Test/Simple
+TESTS := Test/Simple Test/One
 
 all: build
 
@@ -20,8 +20,8 @@ define \n
 endef
 
 test: install clean-tests
-	$(foreach t,$(TESTS),ghc -pgmF interpol $(t)${\n})
-	$(foreach t,$(TESTS),[ `$(t)` = "Ok" ])
+	$(foreach t,$(TESTS),ghc -F -pgmF interpol $(t)${\n})
+	$(foreach t,$(TESTS),[ "`$(t)`" = "I have 23 apples." ]${\n})
 
 .PHONY: all build install clean clean-tests test
 
