@@ -45,7 +45,7 @@ Operation
 ---------
 
 The `interpol` pre-processor effectively replaces
-`"\\{[A-z_][A-z0-9_]*}"` with `"++ show *<ident>* ++"`.  So,
+`"\\{[A-z_][A-z0-9_]*}"` with `"++ show <ident> ++"`.  So,
 
     "I have {okVal} apples."
 
