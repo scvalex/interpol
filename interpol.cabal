@@ -15,7 +15,9 @@ Description:    This preprocessor enables variable interpolation in strings.
 
 Extra-source-files:     Test/Simple.hs,
                         Test/One.hs,
-                        Test/Standalone.hs
+                        Test/Standalone.hs,
+                        Test/Pure.hs,
+                        Test/String.hs
 
 Data-files:             Makefile, README.md
 
