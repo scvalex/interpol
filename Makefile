@@ -1,4 +1,5 @@
-TESTS := Test/Simple Test/One
+TESTS1 := Test/Simple Test/One
+TESTS2 := Test/Standalone Test/Pure
 
 .PHONY: all build dist install clean clean-tests test
 
@@ -17,7 +18,7 @@ clean: clean-tests
 	cabal clean
 
 clean-tests:
-	rm -f $(TESTS) Test/*.{hi,o}
+	rm -f $(TESTS1) $(TESTS2) Test/*.{hi,o}
 
 define \n
 
@@ -25,8 +26,9 @@ define \n
 endef
 
 test: install clean-tests
-	$(foreach t,$(TESTS),ghc -F -pgmF interpol $(t)${\n})
-	$(foreach t,$(TESTS),[ "`$(t)`" = "I have 23 apples." ]${\n})
+	$(foreach t,$(TESTS1),ghc -F -pgmF interpol $(t)${\n})
+	$(foreach t,$(TESTS2),ghc $(t)${\n})
+	$(foreach t,$(TESTS1) $(TESTS2),[ "`$(t)`" = "I have 23 apples." ]${\n})
 
 dist/setup-config: interpol.cabal
 	cabal configure
