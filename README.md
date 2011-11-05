@@ -73,7 +73,7 @@ actually becomes
 
 The `(^-^)` operator is a smarter version of `(++)`: it shows its
 second argument before appending, but only if it is not already a
-`String' (i.e. it does not quote `String` values when interpolating).
+`String` (i.e. it does not quote `String` values when interpolating).
 
 Run the preprocessor manually and check out the source for details
 (seriously now, this README is longer than the source).
