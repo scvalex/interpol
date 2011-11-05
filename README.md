@@ -7,7 +7,7 @@ interpol
 Examples
 --------
 
-The `interpol` pre-processor parses Haskell source file *before* GHC
+The `interpol` preprocessor parses Haskell source file *before* GHC
 and performs variable interpolation statically.  Concretely, it
 replaces `{identifier}` patterns in literal strings with `show
 identifier`.  For instance,
@@ -55,14 +55,25 @@ at the top of the file:
 Operation
 ---------
 
-The `interpol` pre-processor effectively replaces
-`"\\{[A-z_][A-z0-9_]*}"` with `"++ show <ident> ++"`.  So,
+The `interpol` preprocessor effectively does two things:
+
+ 1. it adds an import declaration for `Text.Interpol`, in order to
+     bring the `(^-^)` operator into scope, and
+
+ 1. it replaces any occurrence of `"\\{[A-z_][A-z0-9_]*}"` in string
+    literals with `"^-^ <ident> ^-^"`.
+
+So,
 
     "I have {okVal} apples."
 
 actually becomes
 
-    ("I have " ++ show okVal ++ " apples.")
+    ("I have " ^-^ okVal ^-^ " apples.")
 
-Run the pre-processor manually and check out the source for details
+The `(^-^)` operator is a smarter version of `(++)`: it shows its
+second argument before appending, but only if it is not already a
+`String' (i.e. it does not quote `String` values when interpolating).
+
+Run the preprocessor manually and check out the source for details
 (seriously now, this README is longer than the source).
