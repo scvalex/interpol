@@ -18,10 +18,11 @@ main = do
   res <- parseFileWithExts [] fin
   case res of
     ParseFailed loc reason -> do
-        printf "%s:%s: Parse Failed: %s" fin (show loc) reason
-        writeFile fout =<< readFile fin
+             printf "%s:%s: Parse Failed: %s" fin (show loc) reason
+             writeFile fout =<< readFile fin
     ParseOk m -> do
-        writeFile fout . prettyPrint $ transform m
+             let magicLine = "{-# LINE 1 \"" ++ fin ++ "\" #-}\n"
+             writeFile fout $ magicLine ++ prettyPrint (transform m)
 
 transform :: Module -> Module
 transform = addDecl . everywhere (mkT trans)
