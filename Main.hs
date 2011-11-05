@@ -3,40 +3,50 @@ module Main (
     ) where
 
 import Data.Generics ( mkT, everywhere )
-import Data.Monoid ( Monoid(..) )
-import Language.Haskell.Preprocessor ( Extension(..)
-                                     , Ast(..), Token(..), Tag(..)
-                                     , transform, base )
+import Language.Haskell.Exts ( prettyPrint
+                             , ParseResult(..), parseFileWithExts
+                             , Module(..), Exp(..), QOp(..)
+                             , QName(..), Name(..), Literal(..) )
 import System.Environment ( getArgs )
+import Text.Printf ( printf )
 import Text.Regex.Posix ( (=~) )
 
-extension :: Extension
-extension = interpolExt `mappend` base
+main :: IO ()
+main = do
+  [_, fin, fout] <- getArgs
+  res <- parseFileWithExts [] fin
+  case res of
+    ParseFailed loc reason -> do
+        printf "%s:%s: Parse Failed: %s" fin (show loc) reason
+        writeFile fout =<< readFile fin
+    ParseOk m -> do
+        writeFile fout . prettyPrint $ transform m
 
-interpolExt :: Extension
-interpolExt = mempty { transformer = everywhere (mkT trans) }
+transform :: Module -> Module
+transform = everywhere (mkT trans)
     where
-      trans :: Ast -> Ast
-      trans Single{item = tok@Token{tag = StringLit, val = s}} =
-          let s' = '(' : concat (unsafeInterpol $ ti s) ++ ")"
-          in Single tok{ val = s' }
-      trans ast = ast
+      trans :: Exp -> Exp
+      trans (Lit (String s)) = interpol s
+      trans e                = e
 
-      ti = tail . init
       identRE = "\\{[A-z_][A-z0-9_]*}"
 
-      unsafeInterpol :: String -> [String]
-      unsafeInterpol s =
-          let (before, ident, after) = s =~ identRE
-          in case ident of
-               "" -> [norm before]
-               _  -> norm before : showIdent ident : unsafeInterpol after
+      interpol :: String -> Exp
+      interpol s
+          | s =~ identRE = Paren $ go s
+          | otherwise    = Lit (String s)
 
-      showIdent "" = ""
-      showIdent i  = concat [" ++ show ", ti i, " ++ "]
+      go :: String -> Exp
+      go s = let (before, ident, after) = s =~ identRE
+                 e =  InfixApp (Lit (String before))
+                               appendOp
+                               (App (Var (UnQual (Ident "show")))
+                                    (Var (UnQual (Ident $ ti ident))))
+             in case ident of
+               "" -> (Lit (String before))
+               _  -> InfixApp e appendOp $ go after
 
-      norm "" = "\"\""
-      norm s  = '"' : s ++ "\""
+      appendOp :: QOp
+      appendOp = QVarOp (UnQual (Symbol "++"))
 
-main :: IO ()
-main = transform extension =<< getArgs
+      ti = tail . init
