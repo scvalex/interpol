@@ -6,7 +6,8 @@ import Data.Generics ( mkT, everywhere )
 import Language.Haskell.Exts ( prettyPrint
                              , ParseResult(..), parseFileWithExts
                              , Module(..), Exp(..), QOp(..)
-                             , QName(..), Name(..), Literal(..) )
+                             , QName(..), Name(..), Literal(..)
+                             , ImportDecl(..), ModuleName(..), SrcLoc(..) )
 import System.Environment ( getArgs )
 import Text.Printf ( printf )
 import Text.Regex.Posix ( (=~) )
@@ -23,8 +24,21 @@ main = do
         writeFile fout . prettyPrint $ transform m
 
 transform :: Module -> Module
-transform = everywhere (mkT trans)
+transform = addDecl . everywhere (mkT trans)
     where
+      addDecl :: Module -> Module
+      addDecl (Module sl mn mps mwt mes ids ds) =
+          let ids' = (ImportDecl{ importLoc = SrcLoc { srcFilename = ""
+                                                     , srcLine = 0
+                                                     , srcColumn = 0 }
+                                , importModule = ModuleName "Text.Interpol"
+                                , importQualified = False
+                                , importSrc = False
+                                , importPkg = Nothing
+                                , importAs = Nothing
+                                , importSpecs = Nothing }) : ids
+          in Module sl mn mps mwt mes ids' ds
+
       trans :: Exp -> Exp
       trans (Lit (String s)) = interpol s
       trans e                = e
@@ -40,13 +54,12 @@ transform = everywhere (mkT trans)
       go s = let (before, ident, after) = s =~ identRE
                  e =  InfixApp (Lit (String before))
                                appendOp
-                               (App (Var (UnQual (Ident "show")))
-                                    (Var (UnQual (Ident $ ti ident))))
+                               (Var (UnQual (Ident $ ti ident)))
              in case ident of
                "" -> (Lit (String before))
                _  -> InfixApp e appendOp $ go after
 
       appendOp :: QOp
-      appendOp = QVarOp (UnQual (Symbol "++"))
+      appendOp = QVarOp (UnQual (Symbol "#"))
 
       ti = tail . init
