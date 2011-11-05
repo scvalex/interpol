@@ -8,9 +8,9 @@ Author:         Alexandru Scvortov <scvalex@gmail.com>
 Maintainer:     scvalex@gmail.com
 Homepage:       https://github.com/scvalex/interpol
 Category:       Source-tools, Language
-Synopsis:       GHC pre-processor to enable variable interpolation in strings
+Synopsis:       GHC preprocessor to enable variable interpolation in strings
 Build-type:     Simple
-Description:    This pre-processor enables variable interpolation in strings.
+Description:    This preprocessor enables variable interpolation in strings.
                 See the README.md file for details.
 
 Extra-source-files:     Test/Simple.hs,

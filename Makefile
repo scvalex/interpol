@@ -1,7 +1,7 @@
 TESTS1 := Simple One String
 TESTS2 := Standalone Pure
 
-.PHONY: all build dist install clean clean-tests test
+.PHONY: all build dist install clean clean-tests test doc
 
 all: build
 
@@ -33,3 +33,6 @@ test: install clean-tests
 
 dist/setup-config: interpol.cabal
 	cabal configure
+
+doc: build
+	cabal haddock
