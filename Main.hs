@@ -60,6 +60,6 @@ transform = addDecl . everywhere (mkT trans)
                _  -> InfixApp e appendOp $ go after
 
       appendOp :: QOp
-      appendOp = QVarOp (UnQual (Symbol "#"))
+      appendOp = QVarOp (UnQual (Symbol "^-^"))
 
       ti = tail . init
