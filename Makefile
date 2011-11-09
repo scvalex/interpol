@@ -1,4 +1,4 @@
-TESTS1 := Simple One String
+TESTS1 := Simple One String NoImport
 TESTS2 := Standalone Pure
 GHC := ghc -Wall -Werror
 
