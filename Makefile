@@ -1,5 +1,6 @@
 TESTS1 := Simple One String
 TESTS2 := Standalone Pure
+GHC := ghc -Wall -Werror
 
 .PHONY: all build dist install clean clean-tests test doc
 
@@ -27,8 +28,8 @@ define \n
 endef
 
 test: install clean-tests
-	$(foreach t,$(TESTS1),cd Test && ghc -F -pgmF interpol $(t)${\n})
-	$(foreach t,$(TESTS2),cd Test && ghc $(t)${\n})
+	$(foreach t,$(TESTS1),cd Test && $(GHC) -F -pgmF interpol $(t)${\n})
+	$(foreach t,$(TESTS2),cd Test && $(GHC) $(t)${\n})
 	$(foreach t,$(TESTS1) $(TESTS2),cd Test && [ "`./$(t)`" = "I have 23 apples." ]${\n})
 
 dist/setup-config: interpol.cabal

@@ -3,6 +3,7 @@ module Main (
     ) where
 
 import Data.Generics ( mkT, everywhere )
+import Data.List ( isPrefixOf, tails )
 import Language.Haskell.Exts ( prettyPrint
                              , ParseResult(..), parseFileWithExts
                              , Module(..), Exp(..), QOp(..)
@@ -25,8 +26,14 @@ main = do
              writeFile fout $ magicLine ++ prettyPrint (transform m)
 
 transform :: Module -> Module
-transform = addDecl . everywhere (mkT trans)
+transform = addNecessaryDecls . everywhere (mkT trans)
     where
+      addNecessaryDecls m
+          | strstr "^-^" (prettyPrint m) = addDecl m
+          | otherwise                    = m
+
+      strstr w = any id . map (isPrefixOf w) . tails
+
       addDecl :: Module -> Module
       addDecl (Module sl mn mps mwt mes ids ds) =
           let ids' = (ImportDecl{ importLoc = SrcLoc { srcFilename = ""
