@@ -13,20 +13,21 @@ Build-type:     Simple
 Description:    This preprocessor enables variable interpolation in strings.
                 See the README.md file for details.
 
-Extra-source-files:     Test/Simple.hs,
+Extra-source-files:     Makefile,
+                        Test/Simple.hs,
                         Test/One.hs,
                         Test/Standalone.hs,
                         Test/Pure.hs,
                         Test/String.hs
 
-Data-files:             Makefile, README.md
+Data-files:             README.md
 
 Source-repository head
   Type:                 git
   Location:             git://github.com/scvalex/interpol.git
 
 Executable interpol
-  Build-Depends:        base >=4 && <5, syb, haskell-src-exts, regex-posix
+  Build-Depends:        base >= 4 && <5, syb, haskell-src-exts, regex-posix
   Main-Is:              Main.hs
 
 Library
