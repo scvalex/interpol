@@ -6,19 +6,19 @@ module Text.Interpol (
 
 infixl 3 ^-^
 
+-- | Append a showable value to a 'String' in a smart way.  In
+-- particular, do /not/ 'show' a 'String', as this encloses it in
+-- \"quotes\".  So, depending on the type of the second parameter,
+-- '^-^' is equivalent to one of the following
+--
+-- @
+--   x ^-^ y = x ++ y
+--   x ^-^ y = x ++ show y
+-- @
 (^-^) :: Interpol a => String -> a -> String
 (^-^) = interpol
 
 class Interpol a where
-  -- | Append a showable value to a 'String' in a smart way.  In
-  -- particular, do /not/ 'show' a 'String', as this encloses it in
-  -- \"quotes\".  So, depending on the type of the second parameter,
-  -- '^-^' is equivalent to one of the following
-  --
-  -- @
-  --   x ^-^ y = x ++ y
-  --   x ^-^ y = x ++ show y
-  -- @
   interpol :: String -> a -> String
 
 instance Interpol [Char] where
