@@ -1,9 +1,8 @@
+{-# LANGUAGE FlexibleInstances, UndecidableInstances, OverlappingInstances #-}
 -- | Support module for the @interpol@ preprocessor.
 module Text.Interpol (
         (^-^)
     ) where
-
-import Data.Typeable ( Typeable, cast )
 
 infixl 3 ^-^
 
@@ -16,7 +15,14 @@ infixl 3 ^-^
 --   x ^-^ y = x ++ y
 --   x ^-^ y = x ++ show y
 -- @
-(^-^) :: (Typeable a, Show a) => String -> a -> String
-s ^-^ st = case cast st of
-             Just s' -> s ++ s'
-             Nothing -> s ++ show st
+(^-^) :: Interpol a => String -> a -> String
+(^-^) = interpol
+
+class Interpol a where
+  interpol :: String -> a -> String
+
+instance Interpol [Char] where
+  interpol s x = s ++ x
+
+instance Show a => Interpol a where
+  interpol s x = s ++ show x
