@@ -16,6 +16,10 @@ infixl 3 ^-^
 --   x ^-^ y = x ++ y
 --   x ^-^ y = x ++ show y
 -- @
+--
+-- For all intents and purposes, the 'Interpol' type-class is a
+-- wrapper around 'Show', so any type that has an instance for 'Show'
+-- will also have an instance for 'Interpol'.
 (^-^) :: Interpol a => String -> a -> String
 (^-^) = interpol
 
