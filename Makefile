@@ -1,5 +1,5 @@
 TESTS1 := Simple One String NoImport
-TESTS2 := Standalone Pure
+TESTS2 := Standalone Pure PureString NoWarn JustShow
 GHC := ghc -Wall -Werror
 
 .PHONY: all build dist install clean clean-tests test doc
