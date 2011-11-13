@@ -1,4 +1,5 @@
 {-# LANGUAGE FlexibleInstances, UndecidableInstances, OverlappingInstances #-}
+
 -- | Support module for the @interpol@ preprocessor.
 module Text.Interpol (
         (^-^)
@@ -19,10 +20,10 @@ infixl 3 ^-^
 (^-^) = interpol
 
 class Interpol a where
-  interpol :: String -> a -> String
+    interpol :: String -> a -> String
 
 instance Interpol [Char] where
-  interpol s x = s ++ x
+    interpol s x = s ++ x
 
 instance Show a => Interpol a where
-  interpol s x = s ++ show x
+    interpol s x = s ++ show x
