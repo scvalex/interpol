@@ -1,5 +1,5 @@
 Name:           interpol
-Version:        0.3.0
+Version:        0.2.1
 Cabal-Version:  >= 1.6
 License:        GPL-3
 License-File:   LICENSE
@@ -14,10 +14,14 @@ Description:    This preprocessor enables variable interpolation in strings.
                 See the README.md file for details.
 
 Extra-source-files:     Makefile,
-                        Test/Simple.hs,
+                        Test/JustShow.hs,
+                        Test/NoImport.hs,
+                        Test/NoWarn.hs,
                         Test/One.hs,
-                        Test/Standalone.hs,
                         Test/Pure.hs,
+                        Test/PureString.hs,
+                        Test/Simple.hs,
+                        Test/Standalone.hs,
                         Test/String.hs
 
 Data-files:             README.md
