@@ -51,6 +51,10 @@ at the top of the file:
 
     {-# OPTIONS_GHC -F -pgmF interpol #-}
 
+Note that, unless you use this latter pragma,
+[ghc-mod](http://www.mew.org/~kazu/proj/ghc-mod/en/) and other
+`flymake`-based Emacs modes will probably complain about unused
+variables.
 
 Operation
 ---------
