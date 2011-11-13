@@ -12,8 +12,9 @@ Synopsis:       GHC preprocessor and library to enable variable interpolation in
 Build-type:     Simple
 Description:
         This preprocessor enables variable interpolation in strings.
-        Alternatively, the library may be used.  See the README.md
-        file for details.
+        Alternatively, the library may be used.
+        .
+        See the README.md file for details.
 
 Extra-source-files:     Makefile,
                         Test/JustShow.hs,
