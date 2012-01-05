@@ -33,5 +33,8 @@ class ToString a where
 instance ToString [Char] where
     toString = id
 
+instance ToString Char where
+    toString c = "'" ++ (c:[]) ++ "'"
+
 instance Show a => ToString a where
     toString = show
