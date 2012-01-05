@@ -23,4 +23,6 @@ toStringTests =
          , "number" ~: TestCase $ do
              assertEqual "" "Am 21 years old" ("Am " ^-^ (21 :: Int) ^-^
                                                " years old")
+         , "first" ~: TestCase $ do
+             assertEqual "" "21 is my age" ((21 :: Int) ^-^ " is my age")
          ]
