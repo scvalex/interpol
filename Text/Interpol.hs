@@ -23,7 +23,6 @@ infixl 3 ^-^
 -- will also have an instance for 'Interpol'.
 (^-^), interpol :: (ToString a, ToString b) => a -> b -> String
 (^-^) = interpol
-
 interpol a b = toString a ++ toString b
 
 class ToString a where
@@ -31,6 +30,9 @@ class ToString a where
 
 instance ToString [Char] where
     toString = id
+
+instance ToString Char where
+    toString c = '\'' : c : "'"
 
 instance Show a => ToString a where
     toString = show
