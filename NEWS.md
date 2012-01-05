@@ -5,9 +5,7 @@ v0.2.2
 ------
 
 Bug-fix release for `v0.2.1`. It does not change the API in any way,
-but interpolates the first argument as well as the second (thank you
-[nh2](https://github.com/nh2)).  So, the first argument does not need
-to be a `String` anymore.
+but fixes the interpolation of `Char`s (thank you [nh2](https://github.com/nh2)).
 
 v0.2.1
 ------
