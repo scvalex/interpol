@@ -25,4 +25,6 @@ toStringTests =
                                                " years old")
          , "first" ~: TestCase $ do
              assertEqual "" "21 is my age" ((21 :: Int) ^-^ " is my age")
+         , "utf" ~: TestCase $ do
+             assertEqual "" "Umlaut: ü" ("Umlaut " ^-^ 'ü')
          ]
