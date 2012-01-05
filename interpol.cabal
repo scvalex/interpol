@@ -25,7 +25,8 @@ Extra-source-files:     Makefile,
                         Test/PureString.hs,
                         Test/Simple.hs,
                         Test/Standalone.hs,
-                        Test/String.hs
+                        Test/String.hs,
+                        Test/Unit.hs
 
 Data-files:             README.md, NEWS.md
 

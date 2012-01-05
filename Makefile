@@ -31,6 +31,7 @@ test: install clean-tests
 	$(foreach t,$(TESTS1),cd Test && $(GHC) -F -pgmF interpol $(t)${\n})
 	$(foreach t,$(TESTS2),cd Test && $(GHC) $(t)${\n})
 	$(foreach t,$(TESTS1) $(TESTS2),cd Test && [ "`./$(t)`" = "I have 23 apples." ]${\n})
+	runhaskell Test/Unit.hs
 
 dist/setup-config: interpol.cabal
 	cabal configure
