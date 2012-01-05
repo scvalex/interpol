@@ -3,6 +3,7 @@
 -- | Support module for the @interpol@ preprocessor.
 module Text.Interpol (
         (^-^)
+      , interpol
     ) where
 
 infixl 3 ^-^
@@ -17,17 +18,20 @@ infixl 3 ^-^
 --   x ^-^ y = x ++ show y
 -- @
 --
--- For all intents and purposes, the 'Interpol' type-class is a
+-- For all intents and purposes, the 'ToString' type-class is a
 -- wrapper around 'Show', so any type that has an instance for 'Show'
 -- will also have an instance for 'Interpol'.
-(^-^) :: Interpol a => String -> a -> String
+(^-^), interpol :: (ToString a, ToString b) => a -> b -> String
+
 (^-^) = interpol
 
-class Interpol a where
-    interpol :: String -> a -> String
+interpol a b = toString a ++ toString b
 
-instance Interpol [Char] where
-    interpol s x = s ++ x
+class ToString a where
+    toString :: a -> String
 
-instance Show a => Interpol a where
-    interpol s x = s ++ show x
+instance ToString [Char] where
+    toString = id
+
+instance Show a => ToString a where
+    toString = show
