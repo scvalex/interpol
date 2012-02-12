@@ -4,6 +4,7 @@
 module Text.Interpol (
         (^-^)
       , interpol
+      , ToString
     ) where
 
 infixl 3 ^-^
