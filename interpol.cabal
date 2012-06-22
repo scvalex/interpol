@@ -25,8 +25,7 @@ Extra-source-files:     Makefile,
                         Test/PureString.hs,
                         Test/Simple.hs,
                         Test/Standalone.hs,
-                        Test/String.hs,
-                        Test/Unit.hs
+                        Test/String.hs
 
 Data-files:             README.md, NEWS.md
 
@@ -41,4 +40,15 @@ Executable interpol
 Library
   Build-Depends:         base >= 4 && <5
   Ghc-options:           -Wall
+  Extensions:            Safe
   Exposed-modules:       Text.Interpol
+
+Test-suite unit
+  Hs-Source-Dirs:       Test, .
+  Main-Is:              Unit.hs
+  Type:                 exitcode-stdio-1.0
+
+  Build-Depends:        base >= 4 && <5, syb, haskell-src-exts, regex-posix
+  Ghc-Options:          -Wall
+
+  Build-Depends:        test-framework, test-framework-hunit, HUnit

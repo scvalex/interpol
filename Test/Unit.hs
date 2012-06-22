@@ -1,30 +1,22 @@
 module Main where
 
-import System.Exit ( exitFailure )
+import Data.Monoid
+
+import Test.Framework
+import Test.Framework.Providers.HUnit
 import Test.HUnit
+
 import Text.Interpol
 
 main :: IO ()
-main = do
-  runCounts <- runTestTT $ test [ toStringTests ]
-  if failures runCounts + errors runCounts == 0
-    then
-      putStrLn "All unit tests pass :)"
-    else do
-      putStrLn "Failures or errors occured :'("
-      exitFailure
+main = defaultMainWithOpts
+       [ testCase "toString" testToString
+       ] mempty
 
-toStringTests :: Test
-toStringTests =
-    test [ "string" ~: TestCase $ do
-             assertEqual "" "I have apples" ("I " ^-^ "have " ^-^ "apples")
-         , "char" ~: TestCase $ do
-             assertEqual "" "Triple 'X'" ("Triple " ^-^ 'X')
-         , "number" ~: TestCase $ do
-             assertEqual "" "Am 21 years old" ("Am " ^-^ (21 :: Int) ^-^
-                                               " years old")
-         , "first" ~: TestCase $ do
-             assertEqual "" "21 is my age" ((21 :: Int) ^-^ " is my age")
-         , "utf" ~: TestCase $ do
-             assertEqual "" "Umlaut: 'ü'" ("Umlaut: " ^-^ 'ü')
-         ]
+testToString :: Assertion
+testToString = do
+    ("I " ^-^ "have " ^-^ "apples") @?= "I have apples"
+    ("Triple " ^-^ 'X') @?= "Triple 'X'"
+    ("Am " ^-^ (21 :: Int) ^-^ " years old") @?= "Am 21 years old"
+    ((21 :: Int) ^-^ " is my age") @?= "21 is my age"
+    ("Umlaut: " ^-^ 'ü') @?= "Umlaut: 'ü'"
