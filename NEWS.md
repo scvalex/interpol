@@ -4,7 +4,8 @@ News
 v0.2.3
 ------
 
-Foo bar baz.
+Maintenance release for `v0.2.2`.  Tests ported to `test-framework`.
+All API change are backwards compatible.
 
 v0.2.2
 ------
