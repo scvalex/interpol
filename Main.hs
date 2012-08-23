@@ -41,7 +41,7 @@ transform = addNecessaryDecls . everywhere (mkT trans)
                                                      , srcLine = 0
                                                      , srcColumn = 0 }
                                 , importModule = ModuleName "Text.Interpol"
-                                , importQualified = False
+                                , importQualified = True
                                 , importSrc = False
                                 , importPkg = Nothing
                                 , importAs = Nothing
@@ -69,6 +69,6 @@ transform = addNecessaryDecls . everywhere (mkT trans)
                _  -> InfixApp e appendOp $ go after
 
       appendOp :: QOp
-      appendOp = QVarOp (UnQual (Symbol "^-^"))
+      appendOp = QVarOp (UnQual (Symbol "Text.Interpol.^-^"))
 
       ti = tail . init
