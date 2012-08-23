@@ -27,25 +27,28 @@ main = do
              writeFile fout $ magicLine ++ prettyPrint (transform m)
 
 transform :: Module -> Module
-transform = addNecessaryDecls . everywhere (mkT trans)
+transform = addNecessaryImports . everywhere (mkT trans)
     where
-      addNecessaryDecls m
+      addNecessaryImports m
           | strstr "^-^" (prettyPrint m) = addDecl m
           | otherwise                    = m
 
       strstr w = any id . map (isPrefixOf w) . tails
 
+      qualifiedInterpolImport = ImportDecl {
+            importLoc = SrcLoc { srcFilename = ""
+                               , srcLine = 0
+                               , srcColumn = 0 }
+          , importModule = ModuleName "Text.Interpol"
+          , importQualified = True
+          , importSrc = False
+          , importPkg = Nothing
+          , importAs = Nothing
+          , importSpecs = Nothing }
+
       addDecl :: Module -> Module
       addDecl (Module sl mn mps mwt mes ids ds) =
-          let ids' = (ImportDecl{ importLoc = SrcLoc { srcFilename = ""
-                                                     , srcLine = 0
-                                                     , srcColumn = 0 }
-                                , importModule = ModuleName "Text.Interpol"
-                                , importQualified = True
-                                , importSrc = False
-                                , importPkg = Nothing
-                                , importAs = Nothing
-                                , importSpecs = Nothing }) : ids
+          let ids' = qualifiedInterpolImport : ids
           in Module sl mn mps mwt mes ids' ds
 
       trans :: Exp -> Exp
@@ -53,6 +56,8 @@ transform = addNecessaryDecls . everywhere (mkT trans)
       trans e                = e
 
       identRE = "\\{[A-z_][A-z0-9_]*}"
+
+      interpolOperator = Symbol "Text.Interpol.^-^"
 
       interpol :: String -> Exp
       interpol s
@@ -65,10 +70,10 @@ transform = addNecessaryDecls . everywhere (mkT trans)
                                appendOp
                                (Var (UnQual (Ident $ ti ident)))
              in case ident of
-               "" -> (Lit (String before))
+               "" -> Lit (String before)
                _  -> InfixApp e appendOp $ go after
 
       appendOp :: QOp
-      appendOp = QVarOp (UnQual (Symbol "Text.Interpol.^-^"))
+      appendOp = QVarOp (UnQual interpolOperator)
 
       ti = tail . init
