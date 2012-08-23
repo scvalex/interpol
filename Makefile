@@ -19,7 +19,8 @@ clean: clean-tests
 	cabal clean
 
 clean-tests:
-	rm -f Test/*.{hi,o}
+	rm -f Test/*.hi
+	rm -f Test/*.o
 	$(foreach t,$(TESTS1) $(TESTS2),rm -f Test/$(t)${\n})
 
 define \n
