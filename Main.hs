@@ -1,3 +1,4 @@
+-- | The Interpol pre-processor.
 module Main (
         main
     ) where
