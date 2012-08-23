@@ -3,7 +3,7 @@ module Main (
         main
     ) where
 
-import Data.Generics ( mkT, everywhere )
+import Data.Generics ( mkT, everywhere, mkQ, gcount, GenericQ )
 import Data.List ( isPrefixOf, tails )
 import Language.Haskell.Exts ( prettyPrint
                              , ParseResult(..), parseFileWithExts
@@ -27,13 +27,25 @@ main = do
              writeFile fout $ magicLine ++ prettyPrint (transform m)
 
 transform :: Module -> Module
-transform = addNecessaryImports . everywhere (mkT trans)
+transform = addNecessaryImports . transformed
     where
-      addNecessaryImports m
-          | strstr "^-^" (prettyPrint m) = addDecl m
-          | otherwise                    = m
+      -- Replace strings by interpol operator
+      transformed = everywhere (mkT trans)
 
-      strstr w = any id . map (isPrefixOf w) . tails
+      -- How many interpol operates are present in the module
+      countInterpolUses :: GenericQ Int
+      countInterpolUses = gcount (mkQ False usesInterpol)
+
+      addNecessaryImports m@(Module _ _ _ _ _ importDecls _)
+          | usesInterpol && not alreadyImported = addDecl m
+          | otherwise                           = m
+          where
+            usesInterpol    = countInterpolUses m > 0
+            alreadyImported = any isInterpolImport importDecls
+
+      isInterpolImport ImportDecl { importModule = ModuleName name
+                                  , importQualified = isQualified } =
+          isQualified && name == "Text.Interpol"
 
       qualifiedInterpolImport = ImportDecl {
             importLoc = SrcLoc { srcFilename = ""
@@ -58,6 +70,9 @@ transform = addNecessaryImports . everywhere (mkT trans)
       identRE = "\\{[A-z_][A-z0-9_]*}"
 
       interpolOperator = Symbol "Text.Interpol.^-^"
+
+      usesInterpol :: Name -> Bool
+      usesInterpol n = n == interpolOperator
 
       interpol :: String -> Exp
       interpol s

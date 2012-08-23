@@ -17,6 +17,9 @@ Description:
         See the README.md file for details.
 
 Extra-source-files:     Makefile,
+                        Test/AlreadyImported.hs,
+                        Test/AlreadyImportedWithUse.hs,
+                        Test/AlreadyImportedWithUse2.hs,
                         Test/JustShow.hs,
                         Test/NoImport.hs,
                         Test/NoWarn.hs,
