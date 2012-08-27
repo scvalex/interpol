@@ -13,7 +13,8 @@ dist: test
 	cabal sdist
 
 install: build
-	cabal install
+	cabal install --force-reinstalls
+	touch interpol.cabal
 
 clean: clean-tests
 	cabal clean
